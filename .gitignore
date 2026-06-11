@@ -1,5 +1,6 @@
 node_modules
 dist
+.astro
 .env
 .env.local
 .env.*
@@ -7,3 +8,5 @@ dist
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+astro-dev.out.log
+astro-dev.err.log
