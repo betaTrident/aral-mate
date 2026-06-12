@@ -34,12 +34,73 @@ Return ONLY a valid JSON object with this exact structure:
 Today's date is: ${new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' })}.
 Filipino school terms: "baon" = packed lunch, "periodical exam" = quarterly test, "flag ceremony" = Monday flag raising.`
 
+const PARSED_RESULT_SCHEMA = {
+  type: 'object',
+  properties: {
+    tasks: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          title: { type: 'string' },
+          subject: { type: 'string' },
+          deadline: { type: 'string' },
+          urgency: { type: 'string', enum: ['high', 'medium', 'low'] },
+          details: { type: 'string' },
+        },
+        required: ['title', 'subject', 'deadline', 'urgency', 'details'],
+      },
+    },
+    announcements: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          title: { type: 'string' },
+          date: { type: 'string' },
+          details: { type: 'string' },
+        },
+        required: ['title', 'date', 'details'],
+      },
+    },
+    reminders: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          title: { type: 'string' },
+          date: { type: 'string' },
+          details: { type: 'string' },
+        },
+        required: ['title', 'date', 'details'],
+      },
+    },
+    summary: { type: 'string' },
+  },
+  required: ['tasks', 'announcements', 'reminders', 'summary'],
+} as const
+
+function extractResponseText(data: {
+  candidates?: {
+    content?: {
+      parts?: { text?: string }[]
+    }
+  }[]
+}) {
+  return (
+    data.candidates?.[0]?.content?.parts
+      ?.map(part => part.text ?? '')
+      .join('')
+      .trim() ?? ''
+  )
+}
+
 export const POST: APIRoute = async ({ request }) => {
-  const apiKey = import.meta.env.DEEPSEEK_API_KEY
+  const apiKey = import.meta.env.GEMINI_API_KEY
 
   if (!apiKey || apiKey.trim() === '') {
     return Response.json(
-      { error: 'DeepSeek API key is not configured on the server.' },
+      { error: 'Gemini API key is not configured on the server.' },
       { status: 500 }
     )
   }
@@ -58,30 +119,41 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    const upstream = await fetch('https://api.deepseek.com/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          {
-            role: 'system',
-            content: SYSTEM_PROMPT,
-          },
-          {
-            role: 'user',
-            content: `Message to parse:\n${text}`,
-          },
-        ],
-        response_format: {
-          type: 'json_object',
+    const upstream = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey,
         },
-        temperature: 0.1,
-      }),
-    })
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [
+              {
+                text: SYSTEM_PROMPT,
+              },
+            ],
+          },
+          contents: [
+            {
+              role: 'user',
+              parts: [
+                {
+                  text: `Message to parse:\n${text}`,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            responseMimeType: 'application/json',
+            responseSchema: PARSED_RESULT_SCHEMA,
+            temperature: 0.1,
+            maxOutputTokens: 2048,
+          },
+        }),
+      }
+    )
 
     if (!upstream.ok) {
       const errData = await upstream.json().catch(() => ({}))
@@ -94,12 +166,23 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const data = await upstream.json() as {
-      choices?: { message?: { content?: string } }[]
+      candidates?: {
+        content?: {
+          parts?: { text?: string }[]
+        }
+      }[]
     }
 
-    const raw = data.choices?.[0]?.message?.content ?? ''
-    const parsed = JSON.parse(raw.trim()) as ParsedResult
+    const raw = extractResponseText(data)
 
+    if (!raw) {
+      return Response.json(
+        { error: 'Gemini returned an empty response.' },
+        { status: 502 }
+      )
+    }
+
+    const parsed = JSON.parse(raw) as ParsedResult
     return Response.json(parsed)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'

@@ -13,10 +13,10 @@ npm run preview
 
 ## Environment
 
-Set the DeepSeek API key in `.env.local`:
+Set the Gemini API key in `.env.local`:
 
 ```bash
-DEEPSEEK_API_KEY=your_key_here
+GEMINI_API_KEY=your_key_here
 ```
 
 The key is used only on the server through the Astro API route at `POST /api/parse`.
