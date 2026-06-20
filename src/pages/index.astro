@@ -1,19 +1,1027 @@
 ---
-import AppClient from '@/AppClient'
+// src/pages/index.astro
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AralMate</title>
+    <title>AralMate - AI School Task Organizer for Busy Parents</title>
     <meta
       name="description"
-      content="Paste school messages and turn them into organized tasks, reminders, and deadlines."
+      content="Turn chaotic Viber, Messenger, and WhatsApp school group chats into an organized dashboard of tasks, deadlines, and announcements using Gemini AI."
     />
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="AralMate - AI School Task Organizer for Parents" />
+    <meta property="og:description" content="Turn chaotic teacher announcements and group chats into a structured dashboard of homework, fees, and school events." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Lucide Icons (Via ESM) -->
+    <script is:inline src="https://unpkg.com/lucide@latest"></script>
+    <script is:inline>
+      // Automatically run lucide icon replacement
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      });
+    </script>
   </head>
-  <body>
-    <AppClient client:load />
+  <body class="bg-[#030712] text-slate-100 antialiased font-sans overflow-x-hidden">
+    
+    <!-- Ambient glowing backgrounds -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      <div class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[120px]"></div>
+      <div class="absolute top-[40%] -left-60 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[100px]"></div>
+      <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px]"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f29370a_1px,transparent_1px),linear-gradient(to_bottom,#1f29370a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="relative z-50 border-b border-white/5 bg-slate-950/40 backdrop-blur-md sticky top-0">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-amber-500 p-[1px] shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-all duration-300">
+            <div class="w-full h-full rounded-[11px] bg-slate-950 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400 group-hover:text-indigo-300 transition-colors"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/><path d="M21.5 12v6"/></svg>
+            </div>
+          </div>
+          <div>
+            <span class="font-display font-extrabold text-xl bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-indigo-200">AralMate</span>
+            <span class="block text-[10px] text-indigo-400 font-semibold tracking-wider uppercase leading-none">AI School Companion</span>
+          </div>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
+          <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white transition-colors">How It Works</a>
+          <a href="#playground" class="text-sm text-slate-400 hover:text-white transition-colors">Interactive Demo</a>
+          <a href="#faq" class="text-sm text-slate-400 hover:text-white transition-colors">FAQ</a>
+        </nav>
+
+        <!-- CTA Action -->
+        <div class="flex items-center gap-4">
+          <a
+            id="nav-launch-app"
+            href="/app"
+            class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-semibold rounded-xl group bg-gradient-to-br from-indigo-500 via-purple-600 to-amber-500 group-hover:from-indigo-500 group-hover:to-amber-500 text-white focus:ring-4 focus:outline-none focus:ring-indigo-800 transition-all duration-300 mt-2"
+          >
+            <span class="relative px-5 py-2 transition-all ease-in duration-75 bg-slate-950 rounded-[10px] group-hover:bg-opacity-0">
+              Launch App
+            </span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="relative z-10">
+
+      <!-- Hero Section -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 md:pt-20 md:pb-28">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Left Column (Content) -->
+          <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+            
+            <!-- Gemini Tag -->
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold tracking-wide uppercase mx-auto lg:mx-0 animate-fade-in shadow-inner">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400 animate-pulse"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Powered by Gemini AI
+            </div>
+
+            <!-- Headline -->
+            <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] sm:leading-none">
+              Turn Chaotic <span class="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-pink-500">School Group Chats</span> Into An Organized Dashboard
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+              AralMate instantly extracts homework, due dates, project fees, and announcements from Viber, WhatsApp, and email messages. No manual sorting, no forgotten deadlines.
+            </p>
+
+            <!-- Hero CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+              <a
+                id="hero-cta-launch"
+                href="/app"
+                class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 hover:from-indigo-600 hover:via-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl text-center shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Get Started Free
+              </a>
+              <a
+                href="#playground"
+                class="w-full sm:w-auto px-8 py-4 bg-slate-900/60 hover:bg-slate-800/80 border border-white/10 hover:border-white/20 text-slate-200 font-semibold rounded-xl text-center backdrop-blur-sm transition-all duration-200"
+              >
+                Try Live Playground
+              </a>
+            </div>
+
+            <!-- Social Proof / Stats -->
+            <div class="pt-8 border-t border-white/5 flex flex-wrap justify-center lg:justify-start gap-8 text-slate-400 text-sm">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>No account required</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                <span>Privacy First (Local storage)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="globe" class="w-4 h-4 text-emerald-400"></i>
+                <span>Supports Tagalog/Filipino messages</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column (Interactive Showcase Graphic) -->
+          <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-amber-500 opacity-30 blur-lg"></div>
+            
+            <div class="relative bg-slate-950/80 border border-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur-xl shadow-2xl space-y-6">
+              
+              <!-- Tab toggler for Showcase -->
+              <div class="flex items-center justify-between border-b border-white/5 pb-4">
+                <div class="flex gap-2">
+                  <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                
+                <div class="bg-slate-900/90 rounded-lg p-0.5 flex border border-white/5">
+                  <button id="btn-show-chaos" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-indigo-500/20 text-indigo-200">
+                    Parent Group Chat
+                  </button>
+                  <button id="btn-show-clarity" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 text-slate-400 hover:text-slate-200">
+                    AralMate Dashboard
+                  </button>
+                </div>
+              </div>
+
+              <!-- Content Cards Wrapper -->
+              <div class="min-h-[290px] relative overflow-hidden flex items-center justify-center">
+                
+                <!-- Card A: Chaos (Group Chat Bubble Screen) -->
+                <div id="showcase-chaos" class="w-full space-y-4 transition-all duration-300 transform scale-100 opacity-100">
+                  <div class="flex gap-3 items-end">
+                    <div class="w-7 h-7 rounded-full bg-rose-600 flex items-center justify-center font-display font-bold text-xs text-white">TS</div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-bl-none p-3 max-w-[85%] text-xs text-slate-300">
+                      <p class="font-bold text-rose-400 mb-1">Teacher Santos (Grade 3)</p>
+                      Good morning parents! Please be reminded: Math worksheet on fractions due June 12, book rental fee of P150 due June 15 to the treasurer, and science project draw parts of a plant due Friday June 14. Thank you!
+                    </div>
+                  </div>
+
+                  <div class="flex gap-3 items-end justify-end">
+                    <div class="bg-indigo-950 border border-indigo-900 rounded-2xl rounded-br-none p-3 max-w-[80%] text-xs text-slate-300">
+                      <p class="font-bold text-indigo-400 mb-1">Mom of Lucas (You)</p>
+                      Hala! Homework pages 45-47 po ba yung sa fractions? Saka saan po magbabayad ng fee?
+                    </div>
+                    <div class="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center font-display font-bold text-xs text-white">ME</div>
+                  </div>
+
+                  <div class="flex gap-3 items-end">
+                    <div class="w-7 h-7 rounded-full bg-rose-600 flex items-center justify-center font-display font-bold text-xs text-white">TS</div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-bl-none p-3 max-w-[85%] text-xs text-slate-300">
+                      <p class="font-bold text-rose-400 mb-1">Teacher Santos (Grade 3)</p>
+                      Yes, fractions page 45-47 correct. Book fee pay to Class Treasurer Mommy Reyes. Pls bring white shoes on Monday flag ceremony.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card B: Clarity (AralMate organized tasks) -->
+                <div id="showcase-clarity" class="w-full space-y-3 transition-all duration-300 transform translate-x-12 opacity-0 hidden">
+                  
+                  <div class="bg-slate-900/60 border border-white/5 rounded-xl p-3 flex items-center justify-between hover:bg-slate-900 transition-colors">
+                    <div class="flex items-center gap-3">
+                      <div class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></div>
+                      <div>
+                        <p class="text-xs font-semibold text-white">Math Worksheet — Fractions (pp. 45-47)</p>
+                        <p class="text-[10px] text-slate-400">Mathematics • Due Tomorrow</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-400 text-[10px] font-bold border border-rose-500/20">High Priority</span>
+                  </div>
+
+                  <div class="bg-slate-900/60 border border-white/5 rounded-xl p-3 flex items-center justify-between hover:bg-slate-900 transition-colors">
+                    <div class="flex items-center gap-3">
+                      <div class="w-2.5 h-2.5 rounded-full bg-rose-500"></div>
+                      <div>
+                        <p class="text-xs font-semibold text-white">Science Project — Parts of a Plant</p>
+                        <p class="text-[10px] text-slate-400">Science • Due Friday</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-400 text-[10px] font-bold border border-rose-500/20">High Priority</span>
+                  </div>
+
+                  <div class="bg-slate-900/60 border border-white/5 rounded-xl p-3 flex items-center justify-between hover:bg-slate-900 transition-colors">
+                    <div class="flex items-center gap-3">
+                      <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+                      <div>
+                        <p class="text-xs font-semibold text-white">Pay Book Rental Fee ₱150</p>
+                        <p class="text-[10px] text-slate-400">Administrative • Due June 15</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 text-[10px] font-bold border border-amber-500/20">Medium Priority</span>
+                  </div>
+
+                  <!-- Mini Banner -->
+                  <div class="bg-emerald-950/20 border border-emerald-500/10 rounded-lg p-2.5 text-center">
+                    <p class="text-[11px] text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                      Viber chat parsed into 3 tasks and 1 event timeline!
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+              
+              <!-- Subtle instruction indicator -->
+              <p class="text-[11px] text-center text-slate-500 italic">
+                AralMate separates clean action-items from chatter. Click options above to compare.
+              </p>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Before/After Tab Logic Script -->
+      <script is:inline>
+        const btnChaos = document.getElementById('btn-show-chaos');
+        const btnClarity = document.getElementById('btn-show-clarity');
+        const cardChaos = document.getElementById('showcase-chaos');
+        const cardClarity = document.getElementById('showcase-clarity');
+
+        if (btnChaos && btnClarity && cardChaos && cardClarity) {
+          btnChaos.addEventListener('click', () => {
+            btnChaos.classList.add('bg-indigo-500/20', 'text-indigo-200');
+            btnChaos.classList.remove('text-slate-400');
+            btnClarity.classList.remove('bg-indigo-500/20', 'text-indigo-200');
+            btnClarity.classList.add('text-slate-400');
+
+            cardChaos.classList.remove('hidden');
+            setTimeout(() => {
+              cardChaos.classList.add('scale-100', 'opacity-100');
+              cardChaos.classList.remove('translate-x-12', 'opacity-0');
+            }, 50);
+
+            cardClarity.classList.add('hidden', 'translate-x-12', 'opacity-0');
+            cardClarity.classList.remove('scale-100', 'opacity-100');
+          });
+
+          btnClarity.addEventListener('click', () => {
+            btnClarity.classList.add('bg-indigo-500/20', 'text-indigo-200');
+            btnClarity.classList.remove('text-slate-400');
+            btnChaos.classList.remove('bg-indigo-500/20', 'text-indigo-200');
+            btnChaos.classList.add('text-slate-400');
+
+            cardClarity.classList.remove('hidden');
+            setTimeout(() => {
+              cardClarity.classList.add('scale-100', 'opacity-100');
+              cardClarity.classList.remove('translate-x-12', 'opacity-0');
+            }, 50);
+
+            cardChaos.classList.add('hidden', 'translate-x-12', 'opacity-0');
+            cardChaos.classList.remove('scale-100', 'opacity-100');
+          });
+        }
+      </script>
+
+
+      <!-- Value Proposition / Product Highlights -->
+      <section id="features" class="relative bg-slate-950/60 border-t border-b border-white/5 py-20 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center space-y-3 mb-16">
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+              Designed For Busy Parents Who Need Clarity
+            </h2>
+            <p class="text-slate-400 max-w-xl mx-auto text-base">
+              Say goodbye to endless message scrolling, missed announcements, and forgotten project materials.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Feature 1: AI Parse -->
+            <div class="group bg-slate-900/40 hover:bg-slate-900 border border-white/5 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-indigo-500/20">
+                <i data-lucide="sparkles" class="w-6 h-6 text-indigo-400"></i>
+              </div>
+              <h3 class="font-display font-bold text-lg text-white mb-2">Gemini AI Parser</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Pasted announcements are immediately decoded to find hidden action items. No matter how messy, Gemini pulls out exact titles, subjects, and instructions.
+              </p>
+            </div>
+
+            <!-- Feature 2: Smart Due Dates -->
+            <div class="group bg-slate-900/40 hover:bg-slate-900 border border-white/5 hover:border-purple-500/30 p-6 rounded-2xl transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-purple-500/20">
+                <i data-lucide="calendar" class="w-6 h-6 text-purple-400"></i>
+              </div>
+              <h3 class="font-display font-bold text-lg text-white mb-2">Timeline Chronology</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Tasks are mapped to an intuitive timeline showing exactly what is due tomorrow, this Friday, or next week. Stay ahead of project submission cycles.
+              </p>
+            </div>
+
+            <!-- Feature 3: Privacy First -->
+            <div class="group bg-slate-900/40 hover:bg-slate-900 border border-white/5 hover:border-emerald-500/30 p-6 rounded-2xl transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-emerald-500/20">
+                <i data-lucide="lock" class="w-6 h-6 text-emerald-400"></i>
+              </div>
+              <h3 class="font-display font-bold text-lg text-white mb-2">Offline Privacy</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                No accounts, no email lists, and no data leaks. Your child's profiles and class tasks are saved locally on your browser's local storage.
+              </p>
+            </div>
+
+            <!-- Feature 4: Filipino School Context -->
+            <div class="group bg-slate-900/40 hover:bg-slate-900 border border-white/5 hover:border-amber-500/30 p-6 rounded-2xl transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-amber-500/20">
+                <i data-lucide="languages" class="w-6 h-6 text-amber-400"></i>
+              </div>
+              <h3 class="font-display font-bold text-lg text-white mb-2">Local Language Support</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Trained to interpret Taglish, colloquial Filipino, and common local education terms (e.g. "baon", "recitation", "mga magulang", "class treasurer").
+              </p>
+            </div>
+
+            <!-- Feature 5: Child Profile Settings -->
+            <div class="group bg-slate-900/40 hover:bg-slate-900 border border-white/5 hover:border-pink-500/30 p-6 rounded-2xl transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-pink-500/20">
+                <i data-lucide="users" class="w-6 h-6 text-pink-400"></i>
+              </div>
+              <h3 class="font-display font-bold text-lg text-white mb-2">Focus Profiles</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Keep tasks organized with child profiles. Know exactly which assignment belongs to which kid, keeping your focus crystal clear.
+              </p>
+            </div>
+
+            <!-- Feature 6: Checkoff Success -->
+            <div class="group bg-slate-900/40 hover:bg-slate-900 border border-white/5 hover:border-blue-500/30 p-6 rounded-2xl transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-blue-500/20">
+                <i data-lucide="clipboard-check" class="w-6 h-6 text-blue-400"></i>
+              </div>
+              <h3 class="font-display font-bold text-lg text-white mb-2">Completion Toggles</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Check off items as you complete them. Get visual clarity of remaining items for the day and easily review finished tasks.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- How it Works: Step-by-Step -->
+      <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        
+        <div class="text-center space-y-3 mb-16">
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Simplify Your Routine in 3 Simple Steps
+          </h2>
+          <p class="text-slate-400 max-w-lg mx-auto text-base">
+            No complicated workflows. AralMate fits smoothly into your daily parent group messaging loop.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+          <!-- Connector line for desktop -->
+          <div class="hidden md:block absolute top-1/4 left-1/6 right-1/6 h-[1.5px] bg-gradient-to-r from-indigo-500/10 via-purple-500/20 to-amber-500/10 z-0"></div>
+
+          <!-- Step 1 -->
+          <div class="relative z-10 text-center space-y-4">
+            <div class="w-14 h-14 mx-auto rounded-full bg-slate-900 border-2 border-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/10">
+              <span class="font-display font-bold text-lg text-indigo-400">1</span>
+            </div>
+            <h3 class="font-display font-semibold text-lg text-white">Copy Chat Message</h3>
+            <p class="text-sm text-slate-400 max-w-xs mx-auto">
+              Select and copy the long text update from Viber or Messenger sent by your child's adviser.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative z-10 text-center space-y-4">
+            <div class="w-14 h-14 mx-auto rounded-full bg-slate-900 border-2 border-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/10">
+              <span class="font-display font-bold text-lg text-purple-400">2</span>
+            </div>
+            <h3 class="font-display font-semibold text-lg text-white">Paste and AI Parse</h3>
+            <p class="text-sm text-slate-400 max-w-xs mx-auto">
+              Paste the text in AralMate and press Parse. Let Gemini analyze and break it down.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative z-10 text-center space-y-4">
+            <div class="w-14 h-14 mx-auto rounded-full bg-slate-900 border-2 border-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/10">
+              <span class="font-display font-bold text-lg text-amber-400">3</span>
+            </div>
+            <h3 class="font-display font-semibold text-lg text-white">Review & Complete</h3>
+            <p class="text-sm text-slate-400 max-w-xs mx-auto">
+              See tasks grouped by urgency on your clean dashboard, set deadlines, and check them off.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Interactive Demo Playground Simulator -->
+      <section id="playground" class="relative py-20 bg-slate-950/40 border-t border-b border-white/5 scroll-mt-20">
+        
+        <div class="absolute -top-32 -left-32 w-80 h-80 bg-indigo-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center space-y-3 mb-12">
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+              Try the Live AI Parser Simulator
+            </h2>
+            <p class="text-slate-400 max-w-lg mx-auto text-sm sm:text-base">
+              Experience the power of Gemini extraction below. We have prefilled a sample class chat. Click "Parse with Gemini" to try it!
+            </p>
+          </div>
+
+          <div class="max-w-4xl mx-auto bg-slate-900/40 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+            
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-purple-600 to-amber-500"></div>
+
+            <!-- Panel 1: The Input Box -->
+            <div id="sim-input-panel" class="space-y-6">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5">
+                  <i data-lucide="message-square" class="w-4 h-4 text-indigo-400"></i>
+                  INPUT TEXT MESSENGER CHAT
+                </span>
+                <button id="btn-load-demo" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-1">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                  Reset to Demo Message
+                </button>
+              </div>
+
+              <!-- Textarea Simulation -->
+              <textarea
+                id="sim-textarea"
+                rows="8"
+                class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-4 text-xs sm:text-sm text-slate-300 font-sans focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none transition-all"
+              >Good morning mga magulang! 🌟
+
+From: Ma'am Santos (Grade 3 - Sampaguita)
+
+📚 HOMEWORK & ASSIGNMENTS:
+- Math worksheet on fractions (pages 45-47) - due TOMORROW June 12
+- Science project: Draw and label parts of a plant - due Friday June 14
+- Filipino: Memorize "Lupang Hinirang" first 2 stanzas for recitation on Monday June 16
+
+📅 UPCOMING EVENTS:
+- FLAG CEREMONY will be held this Monday. Please remind your child to wear complete uniform including white shoes.
+- PERIODICAL EXAM for Q4 is scheduled on June 20-21 (Thursday-Friday). Coverage sheet will be sent home tomorrow.
+
+💰 FEES & REMINDERS:
+- Book rental fee of ₱150 is due on June 15. Please pay to the class treasurer.
+- Make sure your child brings their BAON.
+
+Thank you!</textarea>
+
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-slate-500">
+                  This demo simulates the Astro server processing using cached Gemini parse models.
+                </p>
+                <button
+                  id="btn-simulate-parse"
+                  class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-amber-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:-translate-y-0.5 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/20 transition-all duration-200 cursor-pointer"
+                >
+                  <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
+                  Parse with Gemini AI
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Shimmer Loading Skeleton -->
+            <div id="sim-loading-panel" class="hidden py-12 space-y-6">
+              <div class="flex flex-col items-center justify-center space-y-4">
+                <!-- Custom Spinner -->
+                <div class="relative w-16 h-16 flex items-center justify-center">
+                  <div class="absolute inset-0 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin"></div>
+                  <i data-lucide="bot" class="w-6 h-6 text-indigo-400 animate-bounce"></i>
+                </div>
+                <div class="text-center space-y-1.5">
+                  <h4 class="font-display font-semibold text-white">Gemini is organizing the chaos...</h4>
+                  <p class="text-xs text-slate-400">Classifying homework, timelines, and announcements</p>
+                </div>
+              </div>
+
+              <!-- Shimmer cards -->
+              <div class="space-y-3 max-w-lg mx-auto">
+                <div class="h-14 bg-slate-950/60 rounded-xl animate-pulse flex items-center px-4 justify-between">
+                  <div class="h-4 w-1/3 bg-slate-800 rounded"></div>
+                  <div class="h-5 w-16 bg-slate-800 rounded"></div>
+                </div>
+                <div class="h-14 bg-slate-950/60 rounded-xl animate-pulse flex items-center px-4 justify-between">
+                  <div class="h-4 w-1/2 bg-slate-800 rounded"></div>
+                  <div class="h-5 w-16 bg-slate-800 rounded"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 3: Display Results Dashboard -->
+            <div id="sim-results-panel" class="hidden space-y-6">
+              
+              <!-- Result header -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 pb-4 gap-4">
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white">Parsed Dashboard Preview</h4>
+                  <p class="text-xs text-slate-400">Successfully extracted from the chat message</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button id="btn-parse-another" class="px-4 py-2 bg-slate-950/80 hover:bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg border border-white/5 hover:border-white/10 transition-colors">
+                    Reset & Parse New
+                  </button>
+                  <a href="/app" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-md transition-colors flex items-center gap-1">
+                    Enter Real App
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Summary Card -->
+              <div class="bg-indigo-950/20 border border-indigo-500/10 rounded-2xl p-4 flex gap-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0 text-indigo-400">
+                  <i data-lucide="info" class="w-4.5 h-4.5"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-indigo-300 uppercase tracking-wider">AI Executive Summary</p>
+                  <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                    3 tasks due this week, upcoming periodical exam on June 20-21, flag ceremony scheduled this Monday, and book fee due by June 15.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Tab selector for playground -->
+              <div class="flex border-b border-white/5">
+                <button id="tab-btn-tasks" class="px-4 py-2.5 text-xs font-bold border-b-2 border-indigo-500 text-white transition-colors">
+                  Tasks <span class="ml-1 px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-normal">4</span>
+                </button>
+                <button id="tab-btn-anns" class="px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-white transition-colors">
+                  Announcements & Events <span class="ml-1 px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-normal">3</span>
+                </button>
+              </div>
+
+              <!-- Tabs Contents -->
+              <div class="min-h-[220px]">
+                
+                <!-- Tab Tasks -->
+                <div id="tab-content-tasks" class="space-y-3">
+                  
+                  <!-- Task item 1 -->
+                  <label class="flex items-center justify-between bg-slate-950/60 hover:bg-slate-950 border border-white/5 hover:border-white/10 p-3.5 rounded-xl transition-all duration-150 cursor-pointer group">
+                    <div class="flex items-center gap-3">
+                      <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500/20 sim-task-checkbox" />
+                      <div>
+                        <p class="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white transition-colors sim-task-title">Math Worksheet — Fractions (pages 45-47)</p>
+                        <p class="text-[10px] text-slate-400">Due Tomorrow (June 12) • Mathematics</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-red-500/10 text-red-400 text-[10px] font-bold border border-red-500/20 flex-shrink-0">Urgent</span>
+                  </label>
+
+                  <!-- Task item 2 -->
+                  <label class="flex items-center justify-between bg-slate-950/60 hover:bg-slate-950 border border-white/5 hover:border-white/10 p-3.5 rounded-xl transition-all duration-150 cursor-pointer group">
+                    <div class="flex items-center gap-3">
+                      <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500/20 sim-task-checkbox" />
+                      <div>
+                        <p class="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white transition-colors sim-task-title">Science Project — Draw & Label Parts of a Plant</p>
+                        <p class="text-[10px] text-slate-400">Due Friday (June 14) • Science</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-red-500/10 text-red-400 text-[10px] font-bold border border-red-500/20 flex-shrink-0">Urgent</span>
+                  </label>
+
+                  <!-- Task item 3 -->
+                  <label class="flex items-center justify-between bg-slate-950/60 hover:bg-slate-950 border border-white/5 hover:border-white/10 p-3.5 rounded-xl transition-all duration-150 cursor-pointer group">
+                    <div class="flex items-center gap-3">
+                      <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500/20 sim-task-checkbox" />
+                      <div>
+                        <p class="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white transition-colors sim-task-title">Pay Book Rental Fee (₱150)</p>
+                        <p class="text-[10px] text-slate-400">Due June 15 • Administrative</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 text-[10px] font-bold border border-amber-500/20 flex-shrink-0">Medium</span>
+                  </label>
+
+                  <!-- Task item 4 -->
+                  <label class="flex items-center justify-between bg-slate-950/60 hover:bg-slate-950 border border-white/5 hover:border-white/10 p-3.5 rounded-xl transition-all duration-150 cursor-pointer group">
+                    <div class="flex items-center gap-3">
+                      <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500/20 sim-task-checkbox" />
+                      <div>
+                        <p class="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white transition-colors sim-task-title">Memorize Lupang Hinirang (First 2 stanzas)</p>
+                        <p class="text-[10px] text-slate-400">Due June 16 (Monday) • Filipino</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 text-[10px] font-bold border border-amber-500/20 flex-shrink-0">Medium</span>
+                  </label>
+
+                </div>
+
+                <!-- Tab Announcements (Initially hidden) -->
+                <div id="tab-content-anns" class="space-y-3 hidden">
+                  
+                  <!-- Ann item 1 -->
+                  <div class="bg-slate-950/60 border border-white/5 p-4 rounded-xl space-y-1.5">
+                    <h5 class="text-xs sm:text-sm font-semibold text-white">🚩 Flag Ceremony This Monday</h5>
+                    <p class="text-[11px] text-slate-400">Uniform: Complete uniform with white shoes required. Remind students.</p>
+                  </div>
+
+                  <!-- Ann item 2 -->
+                  <div class="bg-slate-950/60 border border-white/5 p-4 rounded-xl space-y-1.5">
+                    <h5 class="text-xs sm:text-sm font-semibold text-white">📝 Fourth Periodical Exam scheduled June 20-21</h5>
+                    <p class="text-[11px] text-slate-400">Exam sheets and study guidelines will be sent home tomorrow.</p>
+                  </div>
+
+                  <!-- Ann item 3 -->
+                  <div class="bg-slate-950/60 border border-white/5 p-4 rounded-xl space-y-1.5">
+                    <h5 class="text-xs sm:text-sm font-semibold text-white">🎒 Baon Protocols</h5>
+                    <p class="text-[11px] text-slate-400">Ensure children pack adequate meals. Strictly no food sharing due to safety precautions.</p>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Interactive Playground Logic Script -->
+      <script is:inline>
+        const btnSimulate = document.getElementById('btn-simulate-parse');
+        const btnReset = document.getElementById('btn-parse-another');
+        const btnLoadDemo = document.getElementById('btn-load-demo');
+        
+        const simInputPanel = document.getElementById('sim-input-panel');
+        const simLoadingPanel = document.getElementById('sim-loading-panel');
+        const simResultsPanel = document.getElementById('sim-results-panel');
+        
+        const textToParse = document.getElementById('sim-textarea');
+
+        // Parse Simulation
+        if (btnSimulate && simInputPanel && simLoadingPanel && simResultsPanel) {
+          btnSimulate.addEventListener('click', () => {
+            simInputPanel.classList.add('hidden');
+            simLoadingPanel.classList.remove('hidden');
+
+            // Wait 1.6 seconds to mock server response
+            setTimeout(() => {
+              simLoadingPanel.classList.add('hidden');
+              simResultsPanel.classList.remove('hidden');
+              if (typeof lucide !== 'undefined') {
+                lucide.createIcons(); // refresh icons in results panel
+              }
+            }, 1600);
+          });
+        }
+
+        // Reset to initial textarea view
+        if (btnReset && simInputPanel && simLoadingPanel && simResultsPanel) {
+          btnReset.addEventListener('click', () => {
+            simResultsPanel.classList.add('hidden');
+            simInputPanel.classList.remove('hidden');
+            // reset all check boxes
+            const checkboxes = document.querySelectorAll('.sim-task-checkbox');
+            checkboxes.forEach(c => {
+              c.checked = false;
+              const textSpan = c.parentNode.querySelector('.sim-task-title');
+              if (textSpan) textSpan.classList.remove('line-through', 'opacity-40');
+            });
+          });
+        }
+
+        // Demo Text loader
+        if (btnLoadDemo && textToParse) {
+          btnLoadDemo.addEventListener('click', () => {
+            textToParse.value = `Good morning mga magulang! 🌟
+
+From: Ma'am Santos (Grade 3 - Sampaguita)
+
+📚 HOMEWORK & ASSIGNMENTS:
+- Math worksheet on fractions (pages 45-47) - due TOMORROW June 12
+- Science project: Draw and label parts of a plant - due Friday June 14
+- Filipino: Memorize "Lupang Hinirang" first 2 stanzas for recitation on Monday June 16
+
+📅 UPCOMING EVENTS:
+- FLAG CEREMONY will be held this Monday. Please remind your child to wear complete uniform including white shoes.
+- PERIODICAL EXAM for Q4 is scheduled on June 20-21 (Thursday-Friday). Coverage sheet will be sent home tomorrow.
+
+💰 FEES & REMINDERS:
+- Book rental fee of ₱150 is due on June 15. Please pay to the class treasurer.
+- Make sure your child brings their BAON.
+
+Thank you!`;
+          });
+        }
+
+        // Tabs Logic for Playground Results
+        const btnTabTasks = document.getElementById('tab-btn-tasks');
+        const btnTabAnns = document.getElementById('tab-btn-anns');
+        const contentTasks = document.getElementById('tab-content-tasks');
+        const contentAnns = document.getElementById('tab-content-anns');
+
+        if (btnTabTasks && btnTabAnns && contentTasks && contentAnns) {
+          btnTabTasks.addEventListener('click', () => {
+            btnTabTasks.classList.add('border-indigo-500', 'text-white');
+            btnTabTasks.classList.remove('border-transparent', 'text-slate-400');
+            btnTabAnns.classList.remove('border-indigo-500', 'text-white');
+            btnTabAnns.classList.add('border-transparent', 'text-slate-400');
+            
+            contentTasks.classList.remove('hidden');
+            contentAnns.classList.add('hidden');
+          });
+
+          btnTabAnns.addEventListener('click', () => {
+            btnTabAnns.classList.add('border-indigo-500', 'text-white');
+            btnTabAnns.classList.remove('border-transparent', 'text-slate-400');
+            btnTabTasks.classList.remove('border-indigo-500', 'text-white');
+            btnTabTasks.classList.add('border-transparent', 'text-slate-400');
+            
+            contentAnns.classList.remove('hidden');
+            contentTasks.classList.add('hidden');
+          });
+        }
+
+        // Checkbox Cross-Out effect
+        document.addEventListener('change', (e) => {
+          if (e.target && e.target.classList.contains('sim-task-checkbox')) {
+            const checkbox = e.target;
+            const textSpan = checkbox.parentNode.querySelector('.sim-task-title');
+            if (textSpan) {
+              if (checkbox.checked) {
+                textSpan.classList.add('line-through', 'opacity-40');
+              } else {
+                textSpan.classList.remove('line-through', 'opacity-40');
+              }
+            }
+          }
+        });
+      </script>
+
+
+      <!-- Parents Testimonials -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-b border-white/5">
+        
+        <div class="text-center space-y-3 mb-16">
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Loved by Parents in Public & Private Schools
+          </h2>
+          <p class="text-slate-400 max-w-lg mx-auto text-base">
+            See how AralMate helps parents save hours of group chat skimming every single week.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Testimonial 1 -->
+          <div class="bg-slate-900/30 border border-white/5 p-6 rounded-2xl space-y-4 shadow-lg hover:border-slate-800 transition-colors">
+            <div class="flex items-center gap-1 text-amber-400">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="text-sm text-slate-300 italic leading-relaxed">
+              "We have 3 children in elementary. Every evening is a chaos of checking Viber group alerts. Now, I copy all notifications from the day, paste it in AralMate, and I instantly get a list of math sheets and project fees categorized perfectly. Highly recommended!"
+            </p>
+            <div class="flex items-center gap-3 pt-2">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center font-bold text-xs text-white">CR</div>
+              <div>
+                <p class="text-xs font-bold text-slate-200">Maria Clarissa Reyes</p>
+                <p class="text-[10px] text-slate-500">Mom of Grade 2 & Grade 5 Pupils</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="bg-slate-900/30 border border-white/5 p-6 rounded-2xl space-y-4 shadow-lg hover:border-slate-800 transition-colors">
+            <div class="flex items-center gap-1 text-amber-400">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="text-sm text-slate-300 italic leading-relaxed">
+              "Sobrang laking tulong. Usually standard class updates are mixed Tagalog/English. Other AI tools fail to read 'baon' or 'pasa bukas', but AralMate extracts them smoothly! I don't miss exam dates anymore."
+            </p>
+            <div class="flex items-center gap-3 pt-2">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center font-bold text-xs text-white">JD</div>
+              <div>
+                <p class="text-xs font-bold text-slate-200">John Dexter M.</p>
+                <p class="text-[10px] text-slate-500">Father of Grade 3 Student</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="bg-slate-900/30 border border-white/5 p-6 rounded-2xl space-y-4 shadow-lg hover:border-slate-800 transition-colors">
+            <div class="flex items-center gap-1 text-amber-400">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="text-sm text-slate-300 italic leading-relaxed">
+              "Privacy is a big deal for me. I love that it doesn't force me to register or upload records. Everything sits locally in my laptop browser. Simple, secure, and fast."
+            </p>
+            <div class="flex items-center gap-3 pt-2">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-bold text-xs text-white">TL</div>
+              <div>
+                <p class="text-xs font-bold text-slate-200">Theresa Lim</p>
+                <p class="text-[10px] text-slate-500">Mom of Grade 1 Student</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- FAQ Section (Accordion Layout) -->
+      <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
+        
+        <div class="text-center space-y-3 mb-16">
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-slate-400 text-sm sm:text-base">
+            Everything you need to know about AralMate, AI safety, and how to get started.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          
+          <!-- Q1 -->
+          <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
+            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+              <span>Do I need a paid account or Gemini API key to use AralMate?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
+            </button>
+            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+              <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
+                No! AralMate offers a fully functional <strong>Demo Mode</strong> loaded with Filipino-context school data, allowing you to try the complete dashboard without keys. For parsing your custom school announcements, you can set your Gemini API key in a local server configuration or use the server routing.
+              </p>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
+            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+              <span>Where is my child's data and settings saved?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
+            </button>
+            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+              <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
+                All child settings, active task boards, timelines, and announcements are stored 100% locally on your browser using HTML5 local storage. We do not run databases or tracking scripts, keeping your family data private.
+              </p>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
+            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+              <span>Does it support bilingual Tagalog-English (Taglish) school messages?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
+            </button>
+            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+              <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
+                Yes! Because AralMate is integrated with Gemini, it is excellent at translating and interpreting colloquial school announcements, teacher abbreviations, and conversational Tagalog-English terms typical in parent Viber threads.
+              </p>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
+            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+              <span>Can I manage multiple children profiles?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
+            </button>
+            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+              <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
+                Yes. Through the settings panel, you can set the name and profile configuration of your child, which automatically updates the task focuses on your homepage dashboard.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- FAQ Accordion JS Script -->
+      <script is:inline>
+        const toggles = document.querySelectorAll('.faq-toggle');
+
+        toggles.forEach(toggle => {
+          toggle.addEventListener('click', () => {
+            const content = toggle.nextElementSibling;
+            const icon = toggle.querySelector('.faq-icon');
+
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+              // Close
+              content.style.maxHeight = '0px';
+              icon.classList.remove('rotate-180');
+            } else {
+              // Close all other first
+              document.querySelectorAll('.faq-content').forEach(c => {
+                c.style.maxHeight = '0px';
+              });
+              document.querySelectorAll('.faq-icon').forEach(i => {
+                i.classList.remove('rotate-180');
+              });
+
+              // Open
+              content.style.maxHeight = content.scrollHeight + 'px';
+              icon.classList.add('rotate-180');
+            }
+          });
+        });
+      </script>
+
+      <!-- Final Call to Action -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="relative bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border border-white/10 rounded-3xl p-8 sm:p-12 text-center overflow-hidden">
+          
+          <!-- Glow spots -->
+          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <div class="max-w-xl mx-auto space-y-6 relative z-10">
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+              Ready to Clear the School Chat Noise?
+            </h2>
+            <p class="text-sm sm:text-base text-slate-300">
+              Paste your first classroom notice and watch Gemini format it into tasks and events instantly. Free, local, and built for you.
+            </p>
+            <div class="pt-4">
+              <a
+                id="footer-cta-launch"
+                href="/app"
+                class="inline-block px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-600 to-amber-500 hover:from-indigo-600 hover:via-purple-700 hover:to-amber-600 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Launch Dashboard App
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-slate-950 py-12 relative z-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <!-- Logo and brand -->
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/><path d="M21.5 12v6"/></svg>
+          </div>
+          <div>
+            <span class="font-display font-bold text-base text-slate-200">AralMate</span>
+            <span class="block text-[9px] text-slate-500 tracking-wider">AI Parent Assistant</span>
+          </div>
+        </div>
+
+        <!-- Copyright -->
+        <p class="text-xs text-slate-500 order-last md:order-none">
+          &copy; {new Date().getFullYear()} AralMate. Built for parents, 100% private.
+        </p>
+
+        <!-- Social / Info -->
+        <div class="flex items-center gap-6">
+          <span class="text-xs text-slate-400">Powering school-task clarity.</span>
+        </div>
+
+      </div>
+    </footer>
+
   </body>
 </html>
