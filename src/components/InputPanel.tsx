@@ -60,7 +60,7 @@ export function InputPanel({ onProcess, onDemo, isLoading, error }: InputPanelPr
         </div>
 
         {isLoading ? (
-          <div className="space-y-3 h-48">
+          <div className="space-y-3 h-48" role="status" aria-live="polite">
             <Skeleton className="h-4 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-4 w-5/6" />
@@ -83,7 +83,7 @@ Example: 'Good morning! Reminder: Math worksheet due tomorrow. Science project (
         )}
 
         {error && (
-          <p className="mt-2 text-sm text-rose-400 flex items-center gap-1.5">
+          <p className="mt-2 text-sm text-rose-400 flex items-center gap-1.5" role="alert">
             <span>⚠</span> {error}
           </p>
         )}

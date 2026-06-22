@@ -37,9 +37,13 @@ import '@/index.css'
     </script>
   </head>
   <body class="bg-[#030712] text-slate-100 antialiased font-sans overflow-x-hidden">
+    <a
+      href="#main-content"
+      class="fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-amber-400 px-4 py-2 font-semibold text-slate-950 shadow-xl transition-transform focus:translate-y-0"
+    >Skip to main content</a>
     
     <!-- Ambient glowing backgrounds -->
-    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
       <div class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[120px]"></div>
       <div class="absolute top-[40%] -left-60 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[100px]"></div>
       <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px]"></div>
@@ -51,7 +55,7 @@ import '@/index.css'
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         <!-- Logo -->
-        <a href="#" class="flex items-center gap-3 group">
+        <a href="/" aria-label="AralMate home" class="flex items-center gap-3 group">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-amber-500 p-[1px] shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-all duration-300">
             <div class="w-full h-full rounded-[11px] bg-slate-950 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400 group-hover:text-indigo-300 transition-colors"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/><path d="M21.5 12v6"/></svg>
@@ -73,6 +77,18 @@ import '@/index.css'
 
         <!-- CTA Action -->
         <div class="flex items-center gap-4">
+          <details class="relative md:hidden">
+            <summary class="cursor-pointer list-none rounded-lg border border-white/10 px-3 py-2 text-sm font-semibold text-slate-200">Navigate</summary>
+            <nav
+              aria-label="Mobile section navigation"
+              class="absolute right-0 top-12 z-50 w-52 rounded-xl border border-white/10 bg-slate-950 p-2 shadow-2xl"
+            >
+              <a href="#features" class="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10">Features</a>
+              <a href="#how-it-works" class="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10">How It Works</a>
+              <a href="#playground" class="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10">Interactive Demo</a>
+              <a href="#faq" class="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10">FAQ</a>
+            </nav>
+          </details>
           <a
             id="nav-launch-app"
             href="/app"
@@ -86,7 +102,7 @@ import '@/index.css'
       </div>
     </header>
 
-    <main class="relative z-10">
+    <main id="main-content" class="relative z-10">
 
       <!-- Hero Section -->
       <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 md:pt-20 md:pb-28">
@@ -160,11 +176,11 @@ import '@/index.css'
                   <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                 </div>
                 
-                <div class="bg-slate-900/90 rounded-lg p-0.5 flex border border-white/5">
-                  <button id="btn-show-chaos" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-indigo-500/20 text-indigo-200">
+                <div class="bg-slate-900/90 rounded-lg p-0.5 flex border border-white/5" role="tablist" aria-label="Before and after comparison">
+                  <button id="btn-show-chaos" role="tab" aria-selected="true" aria-controls="showcase-chaos" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-indigo-500/20 text-indigo-200">
                     Parent Group Chat
                   </button>
-                  <button id="btn-show-clarity" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 text-slate-400 hover:text-slate-200">
+                  <button id="btn-show-clarity" role="tab" aria-selected="false" aria-controls="showcase-clarity" tabindex="-1" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 text-slate-400 hover:text-slate-200">
                     AralMate Dashboard
                   </button>
                 </div>
@@ -174,7 +190,7 @@ import '@/index.css'
               <div class="min-h-[290px] relative overflow-hidden flex items-center justify-center">
                 
                 <!-- Card A: Chaos (Group Chat Bubble Screen) -->
-                <div id="showcase-chaos" class="w-full space-y-4 transition-all duration-300 transform scale-100 opacity-100">
+                <div id="showcase-chaos" role="tabpanel" aria-labelledby="btn-show-chaos" class="w-full space-y-4 transition-all duration-300 transform scale-100 opacity-100">
                   <div class="flex gap-3 items-end">
                     <div class="w-7 h-7 rounded-full bg-rose-600 flex items-center justify-center font-display font-bold text-xs text-white">TS</div>
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-bl-none p-3 max-w-[85%] text-xs text-slate-300">
@@ -201,7 +217,7 @@ import '@/index.css'
                 </div>
 
                 <!-- Card B: Clarity (AralMate organized tasks) -->
-                <div id="showcase-clarity" class="w-full space-y-3 transition-all duration-300 transform translate-x-12 opacity-0 hidden">
+                <div id="showcase-clarity" role="tabpanel" aria-labelledby="btn-show-clarity" class="w-full space-y-3 transition-all duration-300 transform translate-x-12 opacity-0 hidden">
                   
                   <div class="bg-slate-900/60 border border-white/5 rounded-xl p-3 flex items-center justify-between hover:bg-slate-900 transition-colors">
                     <div class="flex items-center gap-3">
@@ -268,6 +284,10 @@ import '@/index.css'
 
         if (btnChaos && btnClarity && cardChaos && cardClarity) {
           btnChaos.addEventListener('click', () => {
+            btnChaos.setAttribute('aria-selected', 'true');
+            btnChaos.tabIndex = 0;
+            btnClarity.setAttribute('aria-selected', 'false');
+            btnClarity.tabIndex = -1;
             btnChaos.classList.add('bg-indigo-500/20', 'text-indigo-200');
             btnChaos.classList.remove('text-slate-400');
             btnClarity.classList.remove('bg-indigo-500/20', 'text-indigo-200');
@@ -284,6 +304,10 @@ import '@/index.css'
           });
 
           btnClarity.addEventListener('click', () => {
+            btnClarity.setAttribute('aria-selected', 'true');
+            btnClarity.tabIndex = 0;
+            btnChaos.setAttribute('aria-selected', 'false');
+            btnChaos.tabIndex = -1;
             btnClarity.classList.add('bg-indigo-500/20', 'text-indigo-200');
             btnClarity.classList.remove('text-slate-400');
             btnChaos.classList.remove('bg-indigo-500/20', 'text-indigo-200');
@@ -297,6 +321,18 @@ import '@/index.css'
 
             cardChaos.classList.add('hidden', 'translate-x-12', 'opacity-0');
             cardChaos.classList.remove('scale-100', 'opacity-100');
+          });
+
+          [btnChaos, btnClarity].forEach((tab, index, tabs) => {
+            tab.addEventListener('keydown', event => {
+              if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+              event.preventDefault();
+              const nextIndex = event.key === 'ArrowRight'
+                ? (index + 1) % tabs.length
+                : (index - 1 + tabs.length) % tabs.length;
+              tabs[nextIndex].focus();
+              tabs[nextIndex].click();
+            });
           });
         }
       </script>
@@ -515,7 +551,7 @@ Thank you!</textarea>
             </div>
 
             <!-- Panel 2: Shimmer Loading Skeleton -->
-            <div id="sim-loading-panel" class="hidden py-12 space-y-6">
+            <div id="sim-loading-panel" class="hidden py-12 space-y-6" role="status" aria-live="polite" aria-label="Parsing school message">
               <div class="flex flex-col items-center justify-center space-y-4">
                 <!-- Custom Spinner -->
                 <div class="relative w-16 h-16 flex items-center justify-center">
@@ -575,11 +611,11 @@ Thank you!</textarea>
               </div>
 
               <!-- Tab selector for playground -->
-              <div class="flex border-b border-white/5">
-                <button id="tab-btn-tasks" class="px-4 py-2.5 text-xs font-bold border-b-2 border-indigo-500 text-white transition-colors">
+              <div class="flex border-b border-white/5" role="tablist" aria-label="Parsed results">
+                <button id="tab-btn-tasks" role="tab" aria-selected="true" aria-controls="tab-content-tasks" class="px-4 py-2.5 text-xs font-bold border-b-2 border-indigo-500 text-white transition-colors">
                   Tasks <span class="ml-1 px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-normal">4</span>
                 </button>
-                <button id="tab-btn-anns" class="px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-white transition-colors">
+                <button id="tab-btn-anns" role="tab" aria-selected="false" aria-controls="tab-content-anns" tabindex="-1" class="px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-white transition-colors">
                   Announcements & Events <span class="ml-1 px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-normal">3</span>
                 </button>
               </div>
@@ -588,7 +624,7 @@ Thank you!</textarea>
               <div class="min-h-[220px]">
                 
                 <!-- Tab Tasks -->
-                <div id="tab-content-tasks" class="space-y-3">
+                <div id="tab-content-tasks" role="tabpanel" aria-labelledby="tab-btn-tasks" class="space-y-3">
                   
                   <!-- Task item 1 -->
                   <label class="flex items-center justify-between bg-slate-950/60 hover:bg-slate-950 border border-white/5 hover:border-white/10 p-3.5 rounded-xl transition-all duration-150 cursor-pointer group">
@@ -641,7 +677,7 @@ Thank you!</textarea>
                 </div>
 
                 <!-- Tab Announcements (Initially hidden) -->
-                <div id="tab-content-anns" class="space-y-3 hidden">
+                <div id="tab-content-anns" role="tabpanel" aria-labelledby="tab-btn-anns" class="space-y-3 hidden">
                   
                   <!-- Ann item 1 -->
                   <div class="bg-slate-950/60 border border-white/5 p-4 rounded-xl space-y-1.5">
@@ -748,6 +784,10 @@ Thank you!`;
 
         if (btnTabTasks && btnTabAnns && contentTasks && contentAnns) {
           btnTabTasks.addEventListener('click', () => {
+            btnTabTasks.setAttribute('aria-selected', 'true');
+            btnTabTasks.tabIndex = 0;
+            btnTabAnns.setAttribute('aria-selected', 'false');
+            btnTabAnns.tabIndex = -1;
             btnTabTasks.classList.add('border-indigo-500', 'text-white');
             btnTabTasks.classList.remove('border-transparent', 'text-slate-400');
             btnTabAnns.classList.remove('border-indigo-500', 'text-white');
@@ -758,6 +798,10 @@ Thank you!`;
           });
 
           btnTabAnns.addEventListener('click', () => {
+            btnTabAnns.setAttribute('aria-selected', 'true');
+            btnTabAnns.tabIndex = 0;
+            btnTabTasks.setAttribute('aria-selected', 'false');
+            btnTabTasks.tabIndex = -1;
             btnTabAnns.classList.add('border-indigo-500', 'text-white');
             btnTabAnns.classList.remove('border-transparent', 'text-slate-400');
             btnTabTasks.classList.remove('border-indigo-500', 'text-white');
@@ -765,6 +809,18 @@ Thank you!`;
             
             contentAnns.classList.remove('hidden');
             contentTasks.classList.add('hidden');
+          });
+
+          [btnTabTasks, btnTabAnns].forEach((tab, index, tabs) => {
+            tab.addEventListener('keydown', event => {
+              if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+              event.preventDefault();
+              const nextIndex = event.key === 'ArrowRight'
+                ? (index + 1) % tabs.length
+                : (index - 1 + tabs.length) % tabs.length;
+              tabs[nextIndex].focus();
+              tabs[nextIndex].click();
+            });
           });
         }
 
@@ -883,11 +939,11 @@ Thank you!`;
           
           <!-- Q1 -->
           <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
-            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+            <button id="faq-button-1" aria-expanded="false" aria-controls="faq-panel-1" class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
               <span>Do I need a paid account or Gemini API key to use AralMate?</span>
               <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+            <div id="faq-panel-1" role="region" aria-labelledby="faq-button-1" hidden class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
               <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
                 No! AralMate offers a fully functional <strong>Demo Mode</strong> loaded with Filipino-context school data, allowing you to try the complete dashboard without keys. For parsing your custom school announcements, you can set your Gemini API key in a local server configuration or use the server routing.
               </p>
@@ -896,11 +952,11 @@ Thank you!`;
 
           <!-- Q2 -->
           <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
-            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+            <button id="faq-button-2" aria-expanded="false" aria-controls="faq-panel-2" class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
               <span>Where is my child's data and settings saved?</span>
               <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+            <div id="faq-panel-2" role="region" aria-labelledby="faq-button-2" hidden class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
               <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
                 All child settings, active task boards, timelines, and announcements are stored 100% locally on your browser using HTML5 local storage. We do not run databases or tracking scripts, keeping your family data private.
               </p>
@@ -909,11 +965,11 @@ Thank you!`;
 
           <!-- Q3 -->
           <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
-            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+            <button id="faq-button-3" aria-expanded="false" aria-controls="faq-panel-3" class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
               <span>Does it support bilingual Tagalog-English (Taglish) school messages?</span>
               <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+            <div id="faq-panel-3" role="region" aria-labelledby="faq-button-3" hidden class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
               <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
                 Yes! Because AralMate is integrated with Gemini, it is excellent at translating and interpreting colloquial school announcements, teacher abbreviations, and conversational Tagalog-English terms typical in parent Viber threads.
               </p>
@@ -922,11 +978,11 @@ Thank you!`;
 
           <!-- Q4 -->
           <div class="border border-white/5 rounded-2xl bg-slate-900/30 overflow-hidden transition-all duration-300 hover:border-slate-800">
-            <button class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
+            <button id="faq-button-4" aria-expanded="false" aria-controls="faq-panel-4" class="w-full flex items-center justify-between p-5 text-left text-white font-semibold text-sm sm:text-base focus:outline-none faq-toggle">
               <span>Can I manage multiple children profiles?</span>
               <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 faq-icon"></i>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
+            <div id="faq-panel-4" role="region" aria-labelledby="faq-button-4" hidden class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-slate-950/40">
               <p class="p-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5">
                 Yes. Through the settings panel, you can set the name and profile configuration of your child, which automatically updates the task focuses on your homepage dashboard.
               </p>
@@ -945,21 +1001,30 @@ Thank you!`;
           toggle.addEventListener('click', () => {
             const content = toggle.nextElementSibling;
             const icon = toggle.querySelector('.faq-icon');
+            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
 
-            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            if (isOpen) {
               // Close
+              toggle.setAttribute('aria-expanded', 'false');
               content.style.maxHeight = '0px';
+              content.hidden = true;
               icon.classList.remove('rotate-180');
             } else {
               // Close all other first
               document.querySelectorAll('.faq-content').forEach(c => {
                 c.style.maxHeight = '0px';
+                c.hidden = true;
+              });
+              document.querySelectorAll('.faq-toggle').forEach(button => {
+                button.setAttribute('aria-expanded', 'false');
               });
               document.querySelectorAll('.faq-icon').forEach(i => {
                 i.classList.remove('rotate-180');
               });
 
               // Open
+              toggle.setAttribute('aria-expanded', 'true');
+              content.hidden = false;
               content.style.maxHeight = content.scrollHeight + 'px';
               icon.classList.add('rotate-180');
             }

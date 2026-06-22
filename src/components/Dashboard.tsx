@@ -1,10 +1,9 @@
-import { ListChecks, LayoutDashboard, PlusCircle } from 'lucide-react'
+import { ListChecks, LayoutDashboard } from 'lucide-react'
 import { TodaysFocus } from './TodaysFocus'
 import { TaskList } from './TaskList'
 import { AnnouncementsBoard } from './AnnouncementsBoard'
 import { DeadlineTimeline } from './DeadlineTimeline'
 import { QuickStats } from './QuickStats'
-import { Button } from '@/components/ui/button'
 import type { Task, Announcement } from '@/types'
 
 interface DashboardProps {
@@ -13,28 +12,17 @@ interface DashboardProps {
   summary?: string
   onComplete: (id: string) => void
   onDelete: (id: string) => void
-  onAddMore: () => void
 }
 
-export function Dashboard({ tasks, announcements, summary, onComplete, onDelete, onAddMore }: DashboardProps) {
+export function Dashboard({ tasks, announcements, summary, onComplete, onDelete }: DashboardProps) {
   return (
     <section className="mt-8 animate-slide-up">
       {/* Dashboard header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center mb-6">
         <div className="flex items-center gap-2">
           <LayoutDashboard className="w-5 h-5 text-amber-400" />
           <h2 className="font-display text-xl font-semibold text-white">Dashboard</h2>
         </div>
-        <Button
-          id="add-more-btn"
-          variant="glass"
-          size="sm"
-          onClick={onAddMore}
-          className="gap-1.5 text-xs"
-        >
-          <PlusCircle className="w-3.5 h-3.5 text-amber-400" />
-          Add Message
-        </Button>
       </div>
 
       {/* Top row: Focus + Stats */}

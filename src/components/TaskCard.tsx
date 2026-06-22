@@ -48,9 +48,10 @@ export function TaskCard({ task, onComplete, onDelete }: TaskCardProps) {
           {/* Complete button */}
           <button
             onClick={() => onComplete(task.id)}
-            aria-label={task.completed ? 'Mark incomplete' : 'Mark complete'}
+            aria-label={`Mark "${task.title}" ${task.completed ? 'incomplete' : 'complete'}`}
+            aria-pressed={task.completed}
             className={cn(
-              'mt-0.5 flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200',
+              'mt-0.5 flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900',
               task.completed
                 ? 'border-emerald-500 bg-emerald-500'
                 : 'border-slate-600 hover:border-emerald-500'
@@ -93,8 +94,8 @@ export function TaskCard({ task, onComplete, onDelete }: TaskCardProps) {
           {/* Delete */}
           <button
             onClick={() => onDelete(task.id)}
-            aria-label="Delete task"
-            className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 p-1 rounded hover:bg-rose-500/20 hover:text-rose-400 text-slate-600"
+            aria-label={`Delete "${task.title}"`}
+            className="opacity-60 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity flex-shrink-0 p-2 rounded hover:bg-rose-500/20 hover:text-rose-400 text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>

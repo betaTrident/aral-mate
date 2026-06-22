@@ -39,8 +39,24 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
+  :where(a, button, input, textarea, summary):focus-visible {
+    outline: 3px solid rgb(251 191 36);
+    outline-offset: 3px;
+  }
+
   ::selection {
     @apply bg-amber-500/30 text-white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

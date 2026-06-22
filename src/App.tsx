@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { AppShell } from '@/components/layout/AppShell'
 import { Header } from '@/components/layout/Header'
 import { InputPanel } from '@/components/InputPanel'
@@ -17,10 +17,21 @@ export default function App() {
   const [view, setView] = useState<View>('input')
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [summary, setSummary] = useState<string>('')
+  const mainRef = useRef<HTMLElement>(null)
+  const hasMounted = useRef(false)
 
   const { settings, updateSettings } = useSettings()
   const { tasks, addTasks, markComplete, deleteTask, clearAll, setAllTasks } = useTaskStore()
   const { isLoading, error, parse } = useDeepSeek()
+
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true
+      return
+    }
+
+    mainRef.current?.focus()
+  }, [view])
 
   const handleProcess = useCallback(async (text: string) => {
     const result = await parse(text)
@@ -53,25 +64,39 @@ export default function App() {
   return (
     <Sheet>
       <AppShell>
-        <Header childName={settings.childName} taskCount={tasks.filter(t => !t.completed).length} />
+        <Header
+          childName={settings.childName}
+          taskCount={tasks.filter(t => !t.completed).length}
+          view={view}
+          hasTasks={tasks.length > 0}
+          onShowInput={() => setView('input')}
+          onShowDashboard={() => setView('dashboard')}
+        />
 
-        {view === 'input' ? (
-          <InputPanel
-            onProcess={handleProcess}
-            onDemo={handleDemo}
-            isLoading={isLoading}
-            error={error}
-          />
-        ) : (
-          <Dashboard
-            tasks={tasks}
-            announcements={announcements}
-            summary={summary}
-            onComplete={markComplete}
-            onDelete={deleteTask}
-            onAddMore={() => setView('input')}
-          />
-        )}
+        <main
+          id="main-content"
+          ref={mainRef}
+          tabIndex={-1}
+          aria-label={view === 'input' ? 'Add a school message' : 'Task dashboard'}
+          className="focus:outline-none"
+        >
+          {view === 'input' ? (
+            <InputPanel
+              onProcess={handleProcess}
+              onDemo={handleDemo}
+              isLoading={isLoading}
+              error={error}
+            />
+          ) : (
+            <Dashboard
+              tasks={tasks}
+              announcements={announcements}
+              summary={summary}
+              onComplete={markComplete}
+              onDelete={deleteTask}
+            />
+          )}
+        </main>
       </AppShell>
 
       <SettingsDrawer
